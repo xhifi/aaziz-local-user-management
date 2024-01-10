@@ -52,6 +52,9 @@ const createUser = async ({
   const query = await shell(command);
   if (query?.startsWith("The command completed successfully")) {
     await shell(`NET LOCALGROUP "Remote Desktop Users" ${username} /add`);
+    await shell(
+      `wmic UserAccount where Name="${username}" set PasswordExpires=True`
+    );
     return extractUserInfo(await shell(`NET USER ${username}`));
   }
 };
@@ -77,6 +80,7 @@ const allUsers = async () => {
 };
 const findUser = async (username) => {
   const users = await allUsers();
+  console.log(users);
   return users.find((user) => user === username);
 };
 

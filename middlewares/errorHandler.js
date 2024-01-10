@@ -7,8 +7,11 @@ module.exports = errorHandler = (err, req, res, next) => {
     statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
     msg: err.message || "Something went wrong on the server",
   };
+
   if (err.cmdErr?.startsWith("The user name could not be found")) {
     defaultError.msg = "User doesn't exist";
+    defaultError.statusCode = 404;
+    defaultError.error = true;
   }
 
   res.status(defaultError.statusCode).json({ msg: defaultError.msg });

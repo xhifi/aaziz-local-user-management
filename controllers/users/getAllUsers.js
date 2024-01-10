@@ -13,7 +13,8 @@ module.exports = async (req, res) => {
   const noAdmin = users
     .filter((user) => !user.toLowerCase().startsWith("admin"))
     .filter((user) => user !== "Guest")
-    .filter((user) => user !== "WDAGUtilityAccount");
+    .filter((user) => user !== "WDAGUtilityAccount")
+    .filter((user) => user !== "DefaultAccount");
   console.log(noAdmin);
 
   const usersData = await Promise.all(

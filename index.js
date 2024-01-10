@@ -1,9 +1,10 @@
-const PORT = 3000;
+const PORT = 8888;
 require("express-async-errors");
 const express = require("express");
 
 const app = express();
 app.use(express.json());
+app.use(require("cors")());
 app.use(require("cors")());
 
 app.use("/users", require("./routes/users"));

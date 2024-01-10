@@ -8,7 +8,6 @@ const {
 
 module.exports = async (req, res) => {
   const { username, fullName, description, isActive, password } = req.body;
-
   if (!username || !fullName || !description || !password) {
     throw new BadRequest(
       "Username, Password, Full Name and Description of a user is required"
@@ -24,15 +23,12 @@ module.exports = async (req, res) => {
       "Provide full name in correct format e.g. John Doe or Mary Dorothy Jane"
     );
   }
-
   const userExists = await findUser(username?.toLowerCase());
   if (userExists) throw new BadRequest(`${userExists} already exists`);
-
   const user = await createUser({
     ...req.body,
-    username: username.toLowerCase(),
+    username: username?.toLowerCase(),
   });
   if (user) return res.send(user);
-
   throw new BadRequest(`Something went wrong while creating ${username}`);
 };
